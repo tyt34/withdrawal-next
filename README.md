@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Веб-приложение для создания заявки на вывод средств
 
-## Getting Started
+![](https://shields.io/badge/-HTML-orange) 
+![](https://shields.io/badge/-ReactJS-05D9FF)
+![](https://shields.io/badge/-TypeScript-2D79C7)
+![](https://shields.io/badge/-NextJS-171717)
+![](https://shields.io/badge/-Zustand-1a2314)
+![](https://shields.io/badge/-Tailwindcss-00bcff)
 
-First, run the development server:
+## Описание
+
+Приложение позволяет создавать заявки на вывод средств через форму с двумя полями ввода и чекбоксом. Бэкенда нет - используется фейковый *API*, а работу приложения можно увидеть через тесты с *MSW* и *Cypress*. Форма сохраняет последнюю заявку в **IndexedDB** на 5 минут, чтобы можно было продолжить работу после перезагрузки.
+
+## Функциональность
+
+Приложение позволяет:  
+- Создавать заявки на вывод средств через форму с двумя полями ввода и чекбоксом
+- Демонстрировать работу приложения без бэкенда с использованием фейкового *API*
+- Тестировать работу приложения:  
+- - Юнит и интеграционные тесты через **Testing Library**
+- - **E2E** тесты через **Cypress**  
+- - Имитацию *API*-запросов через **MSW** (*Mock Service Worker*)
+- Симуляцию различных ошибок сервера через форму:
+- - Введите `400` в поле суммы, чтобы получить ошибку **Bad Request**  
+- - Введите `409` в поле суммы, чтобы получить ошибку **Duplicate Withdrawal**  
+- - Введите `500` в поле суммы, чтобы получить ошибку **Server Error**
+- Локальное сохранение последней заявки на вывод:  
+- - Данные формы автоматически сохраняются в **IndexedDB**  
+- - При перезагрузке страницы, если прошло меньше 5 минут, форма подгружает последние введённые значения  
+- - Если с момента последнего сохранения прошло больше 5 минут, данные считаются устаревшими и очищаются
+- Просмотр созданных заявок:  
+- - Есть страница со списком всех созданных заявок  
+- - Можно кликнуть на заявку, чтобы открыть страницу с деталями по **ID**  
+- - Детали заявки загружаются через фейковый API с использованием **MSW**, даже без бэкенда
+
+<tr>
+  <hr>
+</tr>
+
+## Запуск приложения
+
+Для запуска приложения необходим:
+- `nodejs >=20.19.5` 
+- `npm >=11.7.0`
 
 ```bash
+# Установка зависимостей
+npm i
+
+# Запуск приложения в режиме разработки с msw тестами
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Запуск тестов Testing Library
+npm run t
+
+# Открыть Cypress UI для ручного тестирования
+npm run co
+
+# Прогон всех E2E тестов через Cypress в консоли
+npm run cr
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

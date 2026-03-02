@@ -39,7 +39,6 @@ export const useCreateStore = create<WithdrawalState>((set, get) => ({
     set((state) => {
       const newMeta = { ...state.meta, confirm: value }
 
-      // используем функцию checkIsValid
       const newIsValid = get().checkIsValid({ metaValue: newMeta })
 
       return {
@@ -70,7 +69,6 @@ export const useCreateStore = create<WithdrawalState>((set, get) => ({
 
       const withdrawal = await getWithdrawal({ id })
 
-      // успех — сбрасываем форму
       set({
         data: { amount: '', destination: '' },
         meta: { confirm: false, isSubmitting: false, error: null },
@@ -101,8 +99,8 @@ export const useCreateStore = create<WithdrawalState>((set, get) => ({
         return
       }
 
-      // network error — оставляем форму, показываем сообщение, разрешаем retry
       console.error('Network error', error)
+
       set((state) => ({
         meta: {
           ...state.meta,
